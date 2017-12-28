@@ -1,0 +1,254 @@
+<resources>
+    <string name="app_name">HandspringFlower</string>
+    <string name="hyphen">-</string>
+
+    <!-- Strings related to login_register -->
+    <string name="switch_login">邮 箱 登 录</string>
+    <string name="switch_register">注 册</string>
+    <string name="activity_login_label">邮箱登录</string>
+    <string name="activity_register_label">注册</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">邮箱</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_comfirm_pass">确认密码</string>
+    <string name="action_sign_in">登 录</string>
+    <string name="error_invalid_email">邮箱格式有误</string>
+    <string name="error_invalid_password">密码应由6&#8211;16位字母、数字、下划线、点组成</string>
+    <string name="error_incorrect_email_pass">邮箱或密码不正确</string>
+    <string name="error_unequals_password">两次密码输入不一致，请仔细检查</string>
+    <string name="error_field_required">此处不能为空</string>
+    <string name="progress_load">登录中&#8230;</string>
+    <string name="progress_register">注册中&#8230;</string>
+
+    <string name="dialog_register_success">注册成功，正在为您登录&#8230;</string>
+    <string name="dialog_register_failure">注册失败，请检查网络状况或邮箱是否正确</string>
+    <string name="dialog_confirm">确认</string>
+    <string name="dialog_retry">重试</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_keep_this">留在该页</string>
+    <string name="dialog_quit_save">放弃保存</string>
+
+    <string name="internet_no_connecton">登录失败，请检查网络状况</string>
+
+    <!--Strings related to main toolbar_menu_main-->
+    <string name="search">搜索</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <string name="settings">设置</string>
+
+    <!--Strings related to xml_nav_header-->
+    <string name="user_name">设置你的用户名</string>
+    <string name="user_email">719659300@qq.com</string>
+    <string name="user_pass">123456789</string>
+
+    <!--Strings related to xml_nav_menu-->
+    <!--Strings related to PersonalActivity-->
+    <string name="personal">我的</string>
+    <string name="create">我创建的</string>
+    <string name="join">我加入的</string>
+    <string name="collection">我收藏的</string>
+
+    <string name="notify">通知</string>
+    <string name="message">消息中心</string>
+
+    <string name="change_user">切换账号</string>
+    <string name="quit_user">退出</string>
+
+    <string name="fab_add">创建新活动，该功能待完善~</string>
+    <string name="fab_undo">撤销</string>
+    <string name="fab_cancel">取消创建</string>
+
+
+    <!--Strings related to MainActivity-->
+    <string name="activity_main_label">活动推荐</string>
+
+    <string name="activity_title">活动名称</string>
+    <string name="activity_time">活动时间</string>
+    <string name="activity_content">活动内容(24)</string>
+    <string name="activity_author">创建者</string>
+
+    <string name="activity_foot">加载中&#8230;</string>
+
+    <!--Strings related to InfoActivity-->
+    <string name="activity_info_label">活动详情</string>
+    <string name="activity_description">活动描述:</string>
+    <string name="info_look">查看</string>
+    <string name="info_join">加入</string>
+    <string name="info_collection">收藏</string>
+
+    <string name="info_owner">创办学院</string>
+    <string name="info_location">运动场</string>
+    <string name="info_group_num">总人数</string>
+    <string name="info_collection_num">收藏人数</string>
+
+    <string name="info_description">在这里你可以查看活动详情，并且发表你的评论哦~</string>
+
+    <!--Strings related to SearchActivity-->
+    <string name="search_hint">搜索活动名称、创建者</string>
+    <string name="search_history">搜索历史</string>
+    <string name="search_suggestion">搜索建议</string>
+    <string name="search_result">搜索结果</string>
+    <string name="delete_history">清空输入历史</string>
+    <string name="delete_single">清除该条历史</string>
+
+    <string name="dialog_title_delete_promote">删除提示</string>
+    <string name="dialog_message_delete_all">确认清空输入历史？</string>
+
+    <string-array name="query_suggestions">
+        <item>重邮</item>
+        <item>重庆邮电大学</item>
+        <item>黄浩翔</item>
+        <item>运动会</item>
+        <item>开幕式</item>
+    </string-array>
+
+    <!--Strings related to ProfileActivity-->
+    <string name="save_failure">保存失败，当前网络不可用</string>
+    <string name="save_success">保存成功</string>
+
+    <string name="activity_profile_label">我的资料</string>
+    <string name="activity_profile_avatar">头像</string>
+    <string name="activity_profile_background">侧边栏背景</string>
+    <string name="change_avator">更换头像</string>
+    <string name="change_background">更换侧边栏背景</string>
+    <string name="take_photo">拍照</string>
+    <string name="choose_album">从相册中选择</string>
+
+    <string name="activity_profile_petname">昵称</string>
+    <string name="petname_input">请输入昵称</string>
+    <string name="activity_profile_realname">真实姓名</string>
+    <string name="realname_input">请输入姓名</string>
+    <string name="words_out_of_limit_short">字数不能超过16位哦~</string>
+    <string name="words_out_of_limit_long">字数不能超过42位哦~</string>
+    <string name="words_num_init">0</string>
+    <string name="words_limit_short">/16</string>
+    <string name="words_limit_long">/42</string>
+
+    <string name="activity_profile_sex">性别</string>
+    <string name="sex_male">男</string>
+    <string name="sex_female">女</string>
+
+    <string name="activity_profile_birthday">生日</string>
+    <string name="activity_profile_college">大学</string>
+    <string name="college_dialog_title">请选择学校</string>
+    <string name="college_province">省市</string>
+    <string name="college_name">学校</string>
+    <string name="activity_profile_degree">学历</string>
+    <string name="degree_dialog_title">请选择学历</string>
+
+    <string name="save_changes">正在保存已修改内容&#8230;</string>
+
+    <string-array name="degree_list">
+        <item>小学</item>
+        <item>初中</item>
+        <item>高中</item>
+        <item>专科</item>
+        <item>本科</item>
+        <item>硕士</item>
+        <item>博士</item>
+    </string-array>
+
+    <string name="sign_introduce">设计个性签名，彰显你的个性</string>
+    <string name="sign_hint">还没有签名</string>
+    <string name="activity_profile_sign">个性签名</string>
+    <string name="sign_input">请输入个性签名</string>
+
+    <string name="toast_deny_permission">你拒绝了这个权限</string>
+    <string name="toast_fail_path">无法得到图片</string>
+
+    <!--string-array related to college dialog-->
+    <string-array name="province_list">
+        <item>北京市</item>
+        <item>天津市</item>
+        <item>上海市</item>
+        <item>重庆市</item>
+        <item>四川省</item>
+        <item>江苏省</item>
+        <item>浙江省</item>
+        <item>湖北省</item>
+    </string-array>
+
+    <string-array name="beijing_list">
+        <item>清华大学</item>
+        <item>北京大学</item>
+        <item>中国地质大学(北京)</item>
+        <item>中央财经大学</item>
+        <item>中国政法大学</item>
+        <item>北京师范大学</item>
+        <item>北京理工大学</item>
+        <item>北京邮电大学</item>
+        <item>中国矿业大学</item>
+        <item>中央民族大学</item>
+        <item>北京化工大学</item>
+        <item>北京航空航天大学</item>
+        <item>中国农业大学</item>
+        <item>中国人民大学</item>
+        <item>中国传媒大学</item>
+        <item>中央音乐学院</item>
+    </string-array>
+    <string-array name="tianjin_list">
+        <item>天津大学</item>
+        <item>南开大学</item>
+        <item>天津医科大学</item>
+        <item>天津理工大学</item>
+        <item>天津师范大学</item>
+        <item>天津美术学院</item>
+        <item>天津音乐学院</item>
+        <item>天津财经大学</item>
+    </string-array>
+    <string-array name="shanghai_list">
+        <item>上海大学</item>
+        <item>华东理工大学</item>
+        <item>同济大学</item>
+        <item>东华大学</item>
+        <item>上海财经大学</item>
+        <item>华东师范大学</item>
+        <item>复旦大学</item>
+        <item>上海交通大学</item>
+    </string-array>
+    <string-array name="chongqing_list">
+        <item>重庆大学</item>
+        <item>西南大学</item>
+        <item>西南政法大学</item>
+        <item>重庆邮电大学</item>
+        <item>重庆医科大学</item>
+        <item>重庆工商大学</item>
+        <item>重庆交通大学</item>
+        <item>重庆理工大学</item>
+    </string-array>
+    <string-array name="sichuan_list">
+        <item>四川大学</item>
+        <item>西南交通大学</item>
+        <item>西南财经大学</item>
+        <item>四川农业大学</item>
+        <item>电子科技大学</item>
+    </string-array>
+    <string-array name="jiangsu_list">
+        <item>东南大学</item>
+        <item>南京大学</item>
+        <item>南京师范大学</item>
+        <item>苏州大学</item>
+        <item>南京航空航天大学</item>
+        <item>南京理工大学</item>
+        <item>南京农业大学</item>
+        <item>河海大学</item>
+        <item>中国矿业大学</item>
+    </string-array>
+    <string-array name="zhejiang_list">
+        <item>浙江大学</item>
+        <item>杭州电子科技大学</item>
+        <item>浙江工业大学</item>
+        <item>宁波大学</item>
+    </string-array>
+    <string-array name="hubei_list">
+        <item>武汉大学</item>
+        <item>中南财经政法大学</item>
+        <item>华中农业大学</item>
+        <item>华中师范大学</item>
+        <item>武汉理工大学</item>
+        <item>中国地质大学(武汉)</item>
+        <item>华中科技大学</item>
+    </string-array>
+
+</resources>

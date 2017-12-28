@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:suspend="http://schemas.android.com/apk/res-auto"
+                tools:context="com.cqupt.handspringflower.create.CreateActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_create2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff">
+            <TextView
+                android:id="@+id/text_page"
+                android:text="1/1"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <com.cqupt.handspringflower.create.utilView.CannotScrollViewPager
+            android:layout_weight="1"
+            android:id="@+id/create_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+    </LinearLayout>
+    <com.cqupt.handspringflower.create.utilView.SuspendButtonLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        suspend:distance="80dp"
+        suspend:image1="@drawable/img_addpage"
+        suspend:image2="@drawable/img_closeoverview"
+        suspend:image3="@drawable/img_choosecolor"
+        suspend:image4="@drawable/img_lastpage"
+        suspend:image5="@drawable/img_nextpage"
+        suspend:imageMainClose="@drawable/img_main_close"
+        suspend:imageMainOpen="@drawable/img_main_open"
+        suspend:imageSize="50dp"
+        suspend:marginY="100dp"
+        suspend:number="5" />
+</RelativeLayout>

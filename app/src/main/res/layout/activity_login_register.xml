@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cqupt.handspringflower.login_register.LoginRegister"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/launch"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:padding="16dp">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_switch_login"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/switch_login"
+            android:textSize="14sp"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorBlue"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_switch_register"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@id/button_switch_login"
+            android:text="@string/switch_register"
+            android:textSize="14sp"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorGreen"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

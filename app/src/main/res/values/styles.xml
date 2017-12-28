@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:textColor">@color/colorDefaultFont</item>-->
+    </style>
+
+    <style
+        name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+    <!--Maybe it is invalid-->
+    <style name="MenuTextStyle" parent="AppTheme">
+        <item name="android:textColor">@color/colorNav</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CustomStatusBarTheme" parent="AppTheme">
+    </style>
+
+    <style name="PrimaryStatusBarTheme" parent="AppTheme">
+    </style>
+
+    <style name="contextMenuAnim" parent="@android:style/Animation.Activity">
+        <item name="android:windowEnterAnimation">@anim/colorchooser_enter</item>
+        <item name="android:windowExitAnimation">@anim/colorchooser_exit</item>
+    </style>
+
+</resources>
