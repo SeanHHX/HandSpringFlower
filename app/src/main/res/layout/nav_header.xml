@@ -13,7 +13,7 @@
         android:layout_height="72dp"
         android:padding="2dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/image_header"/>
+        android:src="@drawable/ic_avatar_m"/>
     <TextView
         android:id="@+id/text_user_email"
         android:layout_width="wrap_content"

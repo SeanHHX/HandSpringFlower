@@ -16,9 +16,15 @@ import com.cqupt.handspringflower.R;
 public class PersonalActivity extends BaseActivity {
 
     public static String CurrentPage = "current_page";
+
     public static void actionStart(Context context, int page) {
+        actionStart(context, page, null);
+    }
+
+    public static void actionStart(Context context, int page, Bundle bundle) {
         Intent intent = new Intent(context, PersonalActivity.class);
         intent.putExtra(CurrentPage, page);
+        intent.putExtra("new_create", bundle);
         context.startActivity(intent);
     }
 
@@ -38,9 +44,10 @@ public class PersonalActivity extends BaseActivity {
 
         Intent intent = getIntent();
         int page = intent.getIntExtra(CurrentPage, 0);
+        Bundle newCreate = intent.getBundleExtra("new_create");
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager_personal);
         PersonalFragmentAdapter fragmentAdapter = new PersonalFragmentAdapter(
-                PersonalActivity.this, getSupportFragmentManager());
+                PersonalActivity.this, getSupportFragmentManager(), newCreate);
         viewPager.setAdapter(fragmentAdapter);
         // Set preload num.
         viewPager.setOffscreenPageLimit(2);

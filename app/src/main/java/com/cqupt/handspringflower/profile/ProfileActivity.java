@@ -10,6 +10,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -35,7 +36,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,6 +144,9 @@ public class ProfileActivity extends BaseActivity
     private TextView mTextCollege;
     private AppCompatSpinner spinnerCollege;
 
+    private SharedPreferences sp;
+    private boolean isModified = false;
+
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, ProfileActivity.class);
         context.startActivity(intent);
@@ -206,13 +212,165 @@ public class ProfileActivity extends BaseActivity
         RelativeLayout layoutCollege = (RelativeLayout) findViewById(R.id.layout_college);
         layoutCollege.setOnClickListener(this);
         mTextCollege = (TextView) findViewById(R.id.text_college);
+
+        if(savedInstanceState != null) {
+            mTextPetname.setText(savedInstanceState.getString("petname"));
+            mTextRealName.setText(savedInstanceState.getString("real_name"));
+            mTextSex.setText(savedInstanceState.getString("sex"));
+            mTextBirthday.setText(savedInstanceState.getString("birthday"));
+            mTextCollege.setText(savedInstanceState.getString("college"));
+            mTextDegree.setText(savedInstanceState.getString("degree"));
+            mTextSign.setText(savedInstanceState.getString("sign"));
+            String uriStr = savedInstanceState.getString("image_uri");
+            if (uriStr != null && !uriStr.equals("")) {
+                Uri uri = Uri.parse(uriStr);
+                try {
+                    Bitmap bitmap = BitmapFactory.decodeStream(
+                            getContentResolver().openInputStream(uri));
+                    mImageAvatar.setImageBitmap(bitmap);
+                } catch (Exception e) {
+                    Log.e("hhx", Log.getStackTraceString(e));
+                    mImageAvatar.setImageResource(R.drawable.ic_avatar_m);
+                }
+            } else {
+                mImageAvatar.setImageResource(R.drawable.ic_avatar_m);
+            }
+        }
+
+        sp = getSharedPreferences("profile", MODE_PRIVATE);
+        String petname = sp.getString("petname", "");
+        String realName = sp.getString("real_name", "");
+        String sex = sp.getString("sex", "");
+        String birthday = sp.getString("birthday", "");;
+        String college = sp.getString("college", "");
+        String degree = sp.getString("degree", "");
+        String sign = sp.getString("sign", "");
+        String uriStr = sp.getString("image_uri", "");
+        Log.e("hhx", "uriStr: " + uriStr);
+        mTextPetname.setText(petname);
+        mTextRealName.setText(realName);
+        mTextSex.setText(sex);
+        mTextBirthday.setText(birthday);
+        mTextCollege.setText(college);
+        mTextDegree.setText(degree);
+        mTextSign.setText(sign);
+        if (uriStr != null && !uriStr.equals("")) {
+            Uri uri = Uri.parse(uriStr);
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream(
+                        getContentResolver().openInputStream(uri));
+                mImageAvatar.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                Log.e("hhx", Log.getStackTraceString(e));
+                mImageAvatar.setImageResource(R.drawable.ic_avatar_m);
+            }
+        } else {
+            mImageAvatar.setImageResource(R.drawable.ic_avatar_m);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isModified = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("hhx", "onDestroy");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String petname = "", realName = "", sex = "",
+                birthday = "", college = "", degree = "", sign = "";
+        if(mTextPetname.getText() != null) {
+            petname = mTextPetname.getText().toString();
+        }
+        if(mTextRealName.getText() != null) {
+            realName = mTextRealName.getText().toString();
+        }
+        if(mTextSex.getText() != null) {
+            sex = mTextSex.getText().toString();
+        }
+        if(mTextBirthday.getText() != null) {
+            birthday = mTextBirthday.getText().toString();
+        }
+        if(mTextCollege.getText() != null) {
+            college = mTextCollege.getText().toString();
+        }
+        if(mTextDegree.getText() != null) {
+            degree = mTextDegree.getText().toString();
+        }
+        if(mTextSign.getText() != null) {
+            sign = mTextSign.getText().toString();
+        }
+        outState.putString("petname", petname);
+        outState.putString("real_name", realName);
+        outState.putString("sex", sex);
+        outState.putString("birthday", birthday);
+        outState.putString("college", college);
+        outState.putString("degree", degree);
+        outState.putString("sign", sign);
+        if(imageUri != null) {
+           outState.putString("image_uri", imageUri.toString());
+        }
+    }
+
+    private void saveProfile() {
+        SharedPreferences.Editor editor = sp.edit();
+        if(mTextPetname.getText() != null
+                && !mTextPetname.getText().equals(sp.getString("petname", ""))) {
+            editor.putString("petname", mTextPetname.getText().toString());
+            isModified = true;
+        }
+        if(mTextRealName.getText() != null
+                && !mTextRealName.getText().equals(sp.getString("real_name", ""))) {
+            editor.putString("real_name", mTextRealName.getText().toString());
+            isModified = true;
+        }
+        if(mTextSex.getText() != null
+                && !mTextSex.getText().equals(sp.getString("sex", ""))) {
+            editor.putString("sex", mTextSex.getText().toString());
+            isModified = true;
+        }
+        if(mTextBirthday.getText() != null
+                && !mTextBirthday.getText().equals(sp.getString("birthday", ""))) {
+            editor.putString("birthday", mTextBirthday.getText().toString());
+            isModified = true;
+        }
+        if(mTextCollege.getText() != null
+                && !mTextCollege.getText().equals(sp.getString("college", ""))) {
+            editor.putString("college", mTextCollege.getText().toString());
+        }
+        if(mTextDegree.getText() != null
+                && !mTextDegree.getText().equals(sp.getString("degree", ""))) {
+            editor.putString("degree", mTextDegree.getText().toString());
+            isModified = true;
+        }
+        if(mTextSign.getText() != null
+                && !mTextSign.getText().equals(sp.getString("sign", ""))) {
+            editor.putString("sign", mTextSign.getText().toString());
+            isModified = true;
+        }
+        // Only support avator.
+        if(imageUri != null
+                && !imageUri.toString().equals(sp.getString("image_uri", ""))) {
+            editor.putString("image_uri", imageUri.toString());
+            isModified = true;
+        }
+        if(isModified) {
+            boolean commit = editor.commit();
+            Log.e("hhx", "commit: " + commit);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mProgressDialog.show();
                 requestSave();
                 break;
             default:
@@ -221,8 +379,37 @@ public class ProfileActivity extends BaseActivity
         return true;
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            requestSave();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     private void requestSave() {
-        HttpUtils.sendOkHttpRequest("http://www.baidu.com", new Callback() {
+        saveProfile();
+        if(isModified) {
+            mProgressDialog.show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Message message = new Message();
+                    message.what = MESSAGE_SAVE_SUCCESS;
+                    mHandler.sendMessage(message);
+                }
+            }).start();
+        } else {
+            finish();
+        }
+
+        /*HttpUtils.sendOkHttpRequest("http://www.baidu.com", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 call.cancel();
@@ -250,7 +437,7 @@ public class ProfileActivity extends BaseActivity
                     mHandler.sendMessage(message);
                 }
             }
-        });
+        });*/
     }
 
 
@@ -266,7 +453,13 @@ public class ProfileActivity extends BaseActivity
                     toastSuccess.show();
 
                     Intent intent = new Intent();
-//                    intent.putExtra("image_id", mImageAvatar.getImageAlpha());
+                    if (imageUri != null) {
+                        intent.putExtra("image_uri", imageUri.toString());
+                    } else if (albumImageUri != null) {
+                        intent.putExtra("image_uri", albumImageUri.toString());
+                    } else if (albumCropUri != null) {
+                        intent.putExtra("image_uri", albumCropUri.toString());
+                    }
                     intent.putExtra("user_name", mTextPetname.getText().toString());
                     setResult(RESULT_OK, intent);
 
@@ -824,6 +1017,7 @@ public class ProfileActivity extends BaseActivity
             case CROP_PHOTO_CAPTURE:
                 if(resultCode == RESULT_OK) {
                     try {
+                        Log.e("hhx", "头像: " + imageUri.toString());
                         Bitmap bitmap = BitmapFactory.decodeStream(
                                 getContentResolver().openInputStream(imageUri));
                         if (mType == AVATAR_CHOOSE_ID) {

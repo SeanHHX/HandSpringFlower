@@ -2,6 +2,10 @@ package com.cqupt.handspringflower.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -17,6 +21,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,6 +73,9 @@ public class MainActivity extends BaseActivity implements
     private CircleImageView mCircleImageView;
     private TextView mTextViewName;
     private TextView mTextViewEmail;
+
+    private SharedPreferences sp;
+
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -148,7 +156,7 @@ public class MainActivity extends BaseActivity implements
                             public void run() {
                                 mList.clear();
                                 RecyclerUtils.getItems(mList);
-                                HttpUtils.sendOkHttpRequest(ACTIVITY_LOAD_URL, createJsonRefresh(mList), new Callback() {
+                                /*HttpUtils.sendOkHttpRequest(ACTIVITY_LOAD_URL, createJsonRefresh(mList), new Callback() {
                                     @Override
                                     public void onResponse(Call call, Response response) throws IOException {
                                         if(response.isSuccessful()) {
@@ -177,7 +185,7 @@ public class MainActivity extends BaseActivity implements
                                         message.what = MSG_LOAD_FAILURE;
                                         mHandler.sendMessage(message);
                                     }
-                                });
+                                });*/
                                 mAdapter.notifyDataSetChanged();
                                 swipeRefresh.setRefreshing(false);
                             }
@@ -225,6 +233,28 @@ public class MainActivity extends BaseActivity implements
         mChangeUser.setOnClickListener(this);
         mQuitUser = (AppCompatButton) findViewById(R.id.quit_user);
         mQuitUser.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sp = getSharedPreferences("profile", MODE_PRIVATE);
+        String petname = sp.getString("petname", "");
+        String uriStr = sp.getString("image_uri", "");
+        mTextViewName.setText(petname);
+        if (uriStr != null && !uriStr.equals("")) {
+            Uri uri = Uri.parse(uriStr);
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream(
+                        getContentResolver().openInputStream(uri));
+                mCircleImageView.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                Log.e("hhx", Log.getStackTraceString(e));
+                mCircleImageView.setImageResource(R.drawable.ic_avatar_m);
+            }
+        } else {
+            mCircleImageView.setImageResource(R.drawable.ic_avatar_m);
+        }
     }
 
     private Handler mHandler = new Handler() {
@@ -350,10 +380,24 @@ public class MainActivity extends BaseActivity implements
         switch (requestCode) {
             case 1:
                 if(resultCode == RESULT_OK) {
-//                    int imageId = data.getIntExtra("image_id", 0);
+                    /*String uriStr = data.getStringExtra("image_uri");
+                    Log.e("hhx", "Image_Uri: " + uriStr);
+                    if (uriStr != null && !uriStr.equals("")) {
+                        Uri uri = Uri.parse(uriStr);
+                        try {
+                            Bitmap bitmap = BitmapFactory.decodeStream(
+                                    getContentResolver().openInputStream(uri));
+                            mCircleImageView.setImageBitmap(bitmap);
+//                            Glide.with(MainActivity.this).load(uri).into(mCircleImageView);
+                        } catch (Exception e) {
+                            Log.e("hhx", Log.getStackTraceString(e));
+                            mCircleImageView.setImageResource(R.drawable.ic_avatar_m);
+                        }
+                    } else {
+                        mCircleImageView.setImageResource(R.drawable.ic_avatar_m);
+                    }
                     String userName = data.getStringExtra("user_name");
-//                    Glide.with(MainActivity.this).load(imageId).into(mCircleImageView);
-                    mTextViewName.setText(userName);
+                    mTextViewName.setText(userName);*/
                 }
                 break;
             default:

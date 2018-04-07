@@ -162,7 +162,20 @@ public class LoginActivity extends BaseActivity {
         } else {
             //Email and password are valid.
             mProgressDialog.show();
-            String jsonData = createJSON(email, password);
+
+            // Non-server login: default email and password.
+            if (getString(R.string.user_email).equals(email)
+                    && getString(R.string.user_pass).equals(password)) {
+                Message message = new Message();
+                message.what = MESSAGE_OK_REQUEST;
+                mHandler.sendMessage(message);
+            } else {
+                Message message = new Message();
+                message.what = MESSAGE_CANCEL_REQUEST;
+                mHandler.sendMessage(message);
+            }
+
+            /*String jsonData = createJSON(email, password);
             HttpUtils.sendOkHttpRequest(LOGIN_URL, jsonData, new okhttp3.Callback() {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
@@ -201,7 +214,7 @@ public class LoginActivity extends BaseActivity {
                     message_cancel.what = MESSAGE_CANCEL_REQUEST;
                     mHandler.sendMessage(message_cancel);
                 }
-            });
+            });*/
         }
     }
 

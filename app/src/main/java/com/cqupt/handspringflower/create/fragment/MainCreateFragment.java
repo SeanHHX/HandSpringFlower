@@ -1,5 +1,6 @@
 package com.cqupt.handspringflower.create.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,6 +31,7 @@ import com.cqupt.handspringflower.create.utilDialog.MyColorAdapter;
 import com.cqupt.handspringflower.create.utilView.CannotScrollViewPager;
 import com.cqupt.handspringflower.create.utilView.SeatTable;
 import com.cqupt.handspringflower.create.utilView.SuspendButtonLayout;
+import com.cqupt.handspringflower.personal.PersonalActivity;
 import com.cqupt.handspringflower.utils.HttpUtils;
 import com.cqupt.handspringflower.utils.LogUtil;
 
@@ -130,7 +132,7 @@ public class MainCreateFragment extends Fragment  {
                 {
                     String postJson = getJsonString();
                     LogUtil.e("createJsonString", postJson);
-                    HttpUtils.sendOkHttpRequest(Creat_URL , postJson, new Callback() {
+                   /* HttpUtils.sendOkHttpRequest(Creat_URL , postJson, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
 
@@ -142,7 +144,7 @@ public class MainCreateFragment extends Fragment  {
                                 LogUtil.e("createResponse", response.body().string());
                             }
                         }
-                    });
+                    });*/
                     // Later: 删除对话框，进一步完善
                     AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
                     builder.setTitle("创建成功");
@@ -151,6 +153,9 @@ public class MainCreateFragment extends Fragment  {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            // 跳转到创建列表
+                            PersonalActivity.actionStart(getContext(), 0, mBundle);
+                            ((Activity) getContext()).finish();
                         }
                     });
                     builder.show();

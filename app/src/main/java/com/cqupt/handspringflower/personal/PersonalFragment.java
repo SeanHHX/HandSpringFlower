@@ -1,5 +1,7 @@
 package com.cqupt.handspringflower.personal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,14 +25,16 @@ public class PersonalFragment extends Fragment {
 
     private static final String ARGS_PAGE = "args_page";
     private int mPage;
+    private Bundle newCreate;
     private RecyclerView mRecyclerView;
     private List<ActivityItem> mListCreate = new ArrayList<>();
     private List<ActivityItem> mListJoin = new ArrayList<>();
     private List<ActivityItem> mListColl = new ArrayList<>();
 
-    public static PersonalFragment newInstance(int page) {
+    public static PersonalFragment newInstance(int page, Bundle bundle) {
         Bundle args = new Bundle();
         args.putInt(ARGS_PAGE, page);
+        args.putBundle("new_create", bundle);
         PersonalFragment fragment = new PersonalFragment();
         fragment.setArguments(args);
         return fragment;
@@ -40,6 +44,7 @@ public class PersonalFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPage = getArguments().getInt(ARGS_PAGE);
+        newCreate = getArguments().getBundle("new_create");
 //        Log.e("PersonalFragment", "onCreate"+" "+mPage);
     }
 
@@ -54,6 +59,19 @@ public class PersonalFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         switch (mPage) {
             case 0:
+                if (newCreate != null) {
+                    SharedPreferences sp = getContext()
+                            .getSharedPreferences("profile", Context.MODE_PRIVATE);
+                    String author = sp.getString("petname", "author");
+                    ActivityItem item = new ActivityItem(
+                            R.drawable.a_img_1,
+                            newCreate.getString("name"),
+                            newCreate.getString("time"),
+                            newCreate.getString("des"),
+                            R.drawable.ic_author_m,
+                            author);
+                    mListCreate.add(0, item);
+                }
                 RecyclerUtils.getCreateItems(mListCreate);
                 SearchResAdapter adapter0 = new SearchResAdapter(mListCreate);
                 mRecyclerView.setAdapter(adapter0);

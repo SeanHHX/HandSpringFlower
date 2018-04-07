@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.cqupt.handspringflower.MyApplication;
 import com.cqupt.handspringflower.R;
 import com.cqupt.handspringflower.create.CreateActivity;
 import com.cqupt.handspringflower.create.utilDialog.DateTimePickDialogUtil;
@@ -64,7 +65,7 @@ public class FirstCreateFragment extends Fragment implements View.OnClickListene
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-
+        MyApplication.showSoftInput(et_ActivityName);
     }
 
     @Override
