@@ -2,12 +2,15 @@ package com.cqupt.handspringflower.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -48,8 +51,13 @@ public class ActivityAdapter extends
 
     static class FootViewHolder extends RecyclerView.ViewHolder {
 
+        ProgressBar mProgressBar;
+        TextView mTextView;
+
         public FootViewHolder(View view) {
             super(view);
+            mProgressBar = view.findViewById(R.id.foot_progress);
+            mTextView = view.findViewById(R.id.foot_text);
         }
     }
 
@@ -99,6 +107,10 @@ public class ActivityAdapter extends
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
         if(holder instanceof ItemViewHolder) {
             final ActivityItem item = mList.get(position);
             Glide.with(mContext).load(item.getImageId())
@@ -113,9 +125,29 @@ public class ActivityAdapter extends
             ((ItemViewHolder) holder).mCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    InfoActivity.actionStart(mContext, item.getImageId(), item.getTitle());
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("image_id", item.getImageId());
+                    bundle.putString("title", item.getTitle());
+                    bundle.putString("time", item.getTime());
+                    bundle.putString("institute", item.getInstitute());
+                    bundle.putString("location", item.getLocation());
+                    bundle.putString("content", item.getContent());
+                    bundle.putInt("author_id", item.getAutorId());
+                    bundle.putString("author", item.getAuthor());
+                    InfoActivity.actionStart(mContext, bundle);
                 }
             });
+        } else if(holder instanceof  FootViewHolder) {
+            Log.e("hhx", "payloads: " + payloads.isEmpty());
+            if(!payloads.isEmpty() && ((int)payloads.get(0)) == 0) {
+                Log.e("hhx", "没有更多数据");
+                ((FootViewHolder) holder).mProgressBar.setVisibility(View.GONE);
+                ((FootViewHolder) holder).mTextView.setText("我是有底线的～");
+            } else {
+                Log.e("hhx", "正在加载数据");
+                ((FootViewHolder) holder).mProgressBar.setVisibility(View.VISIBLE);
+                ((FootViewHolder) holder).mTextView.setText("加载中...");
+            }
         }
     }
 

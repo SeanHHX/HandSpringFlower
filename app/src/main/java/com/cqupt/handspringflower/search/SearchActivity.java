@@ -70,7 +70,8 @@ public class SearchActivity extends BaseActivity {
                 SearchItem item = new SearchItem(query);
                 mListHis.add(0, item);
                 mListRes.clear();
-                RecyclerUtils.getResultItems(mListRes);
+//                RecyclerUtils.getResultItems(mListRes);
+                RecyclerUtils.getResultItemsDB(mListRes, query);
                 recyclerView.setAdapter(searchResAdapter);
                 hideKeyBoard();
                 return true;
@@ -82,7 +83,8 @@ public class SearchActivity extends BaseActivity {
                     recyclerView.setAdapter(searchAdapter);
                 } else {
                     if(mListSug.size() != 0) mListSug.clear();
-                    RecyclerUtils.getSugItems(mListSug);
+//                    RecyclerUtils.getSugItems(mListSug);
+                    RecyclerUtils.getSugItemsDB(mListSug, newText);
                     recyclerView.setAdapter(searchSugAdapter);
                 }
                 return true;

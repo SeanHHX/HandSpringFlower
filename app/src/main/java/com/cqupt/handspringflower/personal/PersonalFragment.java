@@ -59,7 +59,7 @@ public class PersonalFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         switch (mPage) {
             case 0:
-                if (newCreate != null) {
+                /*if (newCreate != null) {
                     SharedPreferences sp = getContext()
                             .getSharedPreferences("profile", Context.MODE_PRIVATE);
                     String author = sp.getString("petname", "author");
@@ -67,22 +67,27 @@ public class PersonalFragment extends Fragment {
                             R.drawable.a_img_1,
                             newCreate.getString("name"),
                             newCreate.getString("time"),
+                            newCreate.getString("academy"),
+                            newCreate.getString("ground"),
                             newCreate.getString("des"),
                             R.drawable.ic_author_m,
                             author);
                     mListCreate.add(0, item);
-                }
-                RecyclerUtils.getCreateItems(mListCreate);
+                }*/
+//                RecyclerUtils.getCreateItems(mListCreate);
+                RecyclerUtils.getCreateItemsDB(mListCreate);
                 SearchResAdapter adapter0 = new SearchResAdapter(mListCreate);
                 mRecyclerView.setAdapter(adapter0);
                 break;
             case 1:
-                RecyclerUtils.getJoinItems(mListJoin);
+//                RecyclerUtils.getJoinItems(mListJoin);
+                RecyclerUtils.getJoinItemsDB(mListJoin);
                 SearchResAdapter adapter1 = new SearchResAdapter(mListJoin);
                 mRecyclerView.setAdapter(adapter1);
                 break;
             case 2:
-                RecyclerUtils.getCollItems(mListColl);
+//                RecyclerUtils.getCollItems(mListColl);
+                RecyclerUtils.getCollItemsDB(mListColl);
                 SearchResAdapter adapter2 = new SearchResAdapter(mListColl);
                 mRecyclerView.setAdapter(adapter2);
                 break;

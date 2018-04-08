@@ -260,8 +260,8 @@ public class ProfileActivity extends BaseActivity
                 Bitmap bitmap = BitmapFactory.decodeStream(
                         getContentResolver().openInputStream(uri));
                 mImageAvatar.setImageBitmap(bitmap);
-            } catch (Exception e) {
-                Log.e("hhx", Log.getStackTraceString(e));
+            } catch (Throwable t) {
+                Log.e("hhx", Log.getStackTraceString(t));
                 mImageAvatar.setImageResource(R.drawable.ic_avatar_m);
             }
         } else {
@@ -316,6 +316,8 @@ public class ProfileActivity extends BaseActivity
         outState.putString("sign", sign);
         if(imageUri != null) {
            outState.putString("image_uri", imageUri.toString());
+        } else if(albumImageUri != null) {
+            outState.putString("image_uri", albumImageUri.toString());
         }
     }
 
@@ -344,6 +346,7 @@ public class ProfileActivity extends BaseActivity
         if(mTextCollege.getText() != null
                 && !mTextCollege.getText().equals(sp.getString("college", ""))) {
             editor.putString("college", mTextCollege.getText().toString());
+            isModified = true;
         }
         if(mTextDegree.getText() != null
                 && !mTextDegree.getText().equals(sp.getString("degree", ""))) {
@@ -359,6 +362,10 @@ public class ProfileActivity extends BaseActivity
         if(imageUri != null
                 && !imageUri.toString().equals(sp.getString("image_uri", ""))) {
             editor.putString("image_uri", imageUri.toString());
+            isModified = true;
+        } else if(albumImageUri != null
+                && !albumImageUri.toString().equals(sp.getString("image_uri", ""))) {
+            editor.putString("image_uri", albumImageUri.toString());
             isModified = true;
         }
         if(isModified) {
@@ -452,14 +459,15 @@ public class ProfileActivity extends BaseActivity
                     toastSuccess.setGravity(Gravity.TOP, 0, 40);
                     toastSuccess.show();
 
+                    // 没有用到返回值，用sp替代.
                     Intent intent = new Intent();
-                    if (imageUri != null) {
+                    if (imageUri != null && !imageUri.toString().equals("")) {
                         intent.putExtra("image_uri", imageUri.toString());
-                    } else if (albumImageUri != null) {
+                    } else if (albumImageUri != null && !albumImageUri.toString().equals("")) {
                         intent.putExtra("image_uri", albumImageUri.toString());
-                    } else if (albumCropUri != null) {
+                    } /*else if (albumCropUri != null) {
                         intent.putExtra("image_uri", albumCropUri.toString());
-                    }
+                    }*/
                     intent.putExtra("user_name", mTextPetname.getText().toString());
                     setResult(RESULT_OK, intent);
 
@@ -1014,7 +1022,8 @@ public class ProfileActivity extends BaseActivity
                     cropPhoto(CHOOSE_PHOTO);
                 }
                 break;
-            case CROP_PHOTO_CAPTURE:
+            case CROP_PHOTO_CAPTURE:// 部分手机返回null
+                Log.e("hhx", "拍照: " + imageUri.toString());
                 if(resultCode == RESULT_OK) {
                     try {
                         Log.e("hhx", "头像: " + imageUri.toString());
@@ -1030,7 +1039,7 @@ public class ProfileActivity extends BaseActivity
                     }
                 }
                 break;
-            case CROP_PHOTO_ALBUM:
+            case CROP_PHOTO_ALBUM:// 部分手机返回null
                 if(resultCode == RESULT_OK) {
                     try {
                         Bitmap bitmap = BitmapFactory.decodeStream(
@@ -1101,10 +1110,15 @@ public class ProfileActivity extends BaseActivity
         return path;
     }
 
-    // 根据图片真实路径获取Uri
+    // 根据图片真实路径获取Uri: 注意Uri暴露
     private void getAlbumUri(String imagePath) {
         if(imagePath != null) {
-            albumImageUri = Uri.fromFile(new File(albumImagePath));
+            if(Build.VERSION.SDK_INT >= 24) {
+                albumImageUri = FileProvider.getUriForFile(ProfileActivity.this,
+                        "com.cqupt.photoupload.fileprovider", new File(albumImagePath));
+            } else {
+                albumImageUri = Uri.fromFile(new File(albumImagePath));
+            }
         } else{
             Toast.makeText(ProfileActivity.this, R.string.toast_fail_path,
                     Toast.LENGTH_SHORT).show();
@@ -1116,7 +1130,7 @@ public class ProfileActivity extends BaseActivity
         Intent intent = new Intent("com.android.camera.action.CROP");
         if(action == TAKE_PHOTO) {
             // 拍照后截取图片
-            intent.setDataAndType(imageUri, "image/*");
+            /*intent.setDataAndType(imageUri, "image*//*");
             intent.putExtra("scale", true);
             if(AVATAR_CHOOSE_ID == mType) {
                 // 设置圆形裁剪区域(invalid)
@@ -1124,15 +1138,43 @@ public class ProfileActivity extends BaseActivity
             }
             // 裁剪后覆盖原来的图片(imageUri)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            startActivityForResult(intent, CROP_PHOTO_CAPTURE);
+            startActivityForResult(intent, CROP_PHOTO_CAPTURE);*/
+
+            // 去掉crop解决部分手机截取图片intent崩溃
+            try {
+                Log.e("hhx", "头像: " + imageUri.toString());
+                Bitmap bitmap = BitmapFactory.decodeStream(
+                        getContentResolver().openInputStream(imageUri));
+                if (mType == AVATAR_CHOOSE_ID) {
+                    mImageAvatar.setImageBitmap(bitmap);
+                } else if (mType == BACK_CHOOSE_ID) {
+                    mImageBackground.setImageBitmap(bitmap);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         } else if(action == CHOOSE_PHOTO) {
             // 选取相册照片截取图片
             getAlbumUri(albumImagePath);
-            intent.setDataAndType(albumImageUri, "image/*");
+            /*intent.setDataAndType(albumImageUri, "image*//*");
             intent.putExtra("scale", true);
             albumCropUri = getCropUri();
             intent.putExtra(MediaStore.EXTRA_OUTPUT, albumCropUri);
-            startActivityForResult(intent, CROP_PHOTO_ALBUM);
+            startActivityForResult(intent, CROP_PHOTO_ALBUM);*/
+
+            // 去掉crop解决部分手机截取图片intent崩溃
+            try {
+                Log.e("hhx", "头像: " + albumImageUri.toString());
+                Bitmap bitmap = BitmapFactory.decodeStream(
+                        getContentResolver().openInputStream(albumImageUri));
+                if (mType == AVATAR_CHOOSE_ID) {
+                    mImageAvatar.setImageBitmap(bitmap);
+                } else if (mType == BACK_CHOOSE_ID) {
+                    mImageBackground.setImageBitmap(bitmap);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -21,6 +21,8 @@ import com.cqupt.handspringflower.BaseActivity;
 import com.cqupt.handspringflower.R;
 import com.cqupt.handspringflower.utils.LogUtil;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class InfoActivity extends BaseActivity
         implements View.OnClickListener{
 
@@ -31,6 +33,12 @@ public class InfoActivity extends BaseActivity
         Intent intent = new Intent(context, InfoActivity.class);
         intent.putExtra(ACTIVITY_IMAGE_ID, id);
         intent.putExtra(ACTIVITY_TITLE, title);
+        context.startActivity(intent);
+    }
+
+    public static void actionStart(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, InfoActivity.class);
+        intent.putExtra("info", bundle);
         context.startActivity(intent);
     }
 
@@ -46,6 +54,12 @@ public class InfoActivity extends BaseActivity
 
         ImageView imageToolbar = (ImageView) findViewById(R.id.image_info_toolbar);
         TextView textTitleInfo = (TextView) findViewById(R.id.text_title_info);
+        CircleImageView imageAuthor = (CircleImageView) findViewById(R.id.image_author_info);
+        TextView textAuthor = (TextView) findViewById(R.id.text_author_info);
+        TextView textTime = (TextView) findViewById(R.id.text_time_info);
+        TextView textInstitute = (TextView) findViewById(R.id.text_owner_info);
+        TextView textLocation = (TextView) findViewById(R.id.text_location_info);
+        TextView textContent = (TextView) findViewById(R.id.text_content_info);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -55,10 +69,24 @@ public class InfoActivity extends BaseActivity
 
         //Get data from intent.
         Intent intent = getIntent();
-        int activityImageId = intent.getIntExtra(ACTIVITY_IMAGE_ID, 0);
-        String activityTitle = intent.getStringExtra(ACTIVITY_TITLE);
+        Bundle bundle = intent.getBundleExtra("info");
+        int activityImageId = bundle.getInt("image_id");
+        String activityTitle = bundle.getString("title");
+        String activityTime = bundle.getString("time");
+        String institute = bundle.getString("institute");
+        String location = bundle.getString("location");
+        String content = bundle.getString("content");
+        int authorAvatarId = bundle.getInt("author_id");
+        String author = bundle.getString("author");
+
         Glide.with(this).load(activityImageId).into(imageToolbar);
         textTitleInfo.setText(activityTitle);
+        Glide.with(this).load(authorAvatarId).into(imageAuthor);
+        textAuthor.setText(author);
+        textTime.setText(activityTime);
+        textInstitute.setText(institute);
+        textLocation.setText(location);
+        textContent.setText(content);
 
         // 活动相关操作
         FloatingActionButton fabComment = (FloatingActionButton) findViewById(R.id.fab_comment);

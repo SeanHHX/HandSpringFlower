@@ -76,6 +76,7 @@ public class MainActivity extends BaseActivity implements
 
     private SharedPreferences sp;
 
+    private boolean hasMore = true;
 
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -130,7 +131,8 @@ public class MainActivity extends BaseActivity implements
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add);
         fab.setOnClickListener(this);
 
-        RecyclerUtils.getItems(mList);
+//        RecyclerUtils.getItems(mList);
+        RecyclerUtils.getItemsDB(mList, 0);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_list_main);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -155,7 +157,8 @@ public class MainActivity extends BaseActivity implements
                             @Override
                             public void run() {
                                 mList.clear();
-                                RecyclerUtils.getItems(mList);
+//                                RecyclerUtils.getItems(mList);
+                                RecyclerUtils.getItemsDB(mList, 0);
                                 /*HttpUtils.sendOkHttpRequest(ACTIVITY_LOAD_URL, createJsonRefresh(mList), new Callback() {
                                     @Override
                                     public void onResponse(Call call, Response response) throws IOException {
@@ -188,6 +191,7 @@ public class MainActivity extends BaseActivity implements
                                 });*/
                                 mAdapter.notifyDataSetChanged();
                                 swipeRefresh.setRefreshing(false);
+                                hasMore = true;
                             }
                         });
                     }
@@ -198,27 +202,52 @@ public class MainActivity extends BaseActivity implements
         // 上拉更多
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(final RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
                 if ((lastVisibleItemPosition+1) == mAdapter.getItemCount()) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try{
-                                Thread.sleep(1000);
-                            }catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    RecyclerUtils.getItems(mList);
-                                    mAdapter.notifyItemRemoved(mAdapter.getItemCount());
+                    if(hasMore) {
+                        hasMore = false;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
-                            });
-                        }
-                    }).start();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        int before = mAdapter.getItemCount();
+                                        Log.e("hhx", "before: " + before);
+                                        RecyclerUtils.getItemsDB(mList, 1);
+                                        mAdapter.notifyDataSetChanged();
+//                                        mAdapter.notifyItemRemoved(before-1);
+//                                        recyclerView.smoothScrollToPosition(before-1);
+                                    }
+                                });
+                            }
+                        }).start();
+                    } else {
+                        Log.e("hhx", "底部更新");
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mAdapter.notifyItemChanged(mList.size(), 0);
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
                 }
             }
 
@@ -375,6 +404,12 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
+    /**
+     * 没有用到返回值，用sp替代.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {

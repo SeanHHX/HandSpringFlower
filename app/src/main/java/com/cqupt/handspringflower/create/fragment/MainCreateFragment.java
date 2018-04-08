@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ import com.cqupt.handspringflower.create.utilDialog.MyColorAdapter;
 import com.cqupt.handspringflower.create.utilView.CannotScrollViewPager;
 import com.cqupt.handspringflower.create.utilView.SeatTable;
 import com.cqupt.handspringflower.create.utilView.SuspendButtonLayout;
+import com.cqupt.handspringflower.database.DBUtils;
 import com.cqupt.handspringflower.personal.PersonalActivity;
 import com.cqupt.handspringflower.utils.HttpUtils;
 import com.cqupt.handspringflower.utils.LogUtil;
@@ -153,6 +155,24 @@ public class MainCreateFragment extends Fragment  {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            // 在数据库中添加记录
+                            SharedPreferences sp = getContext()
+                                    .getSharedPreferences("profile", Context.MODE_PRIVATE);
+                            String[] args = new String[12];
+                            args[0] = mBundle.getString("name");
+                            args[1] = mBundle.getString("time");
+                            args[2] = mBundle.getString("academy");
+                            args[3] = mBundle.getString("ground");
+                            args[4] = mBundle.getString("des");
+                            args[5] = sp.getString("petname", "author");
+                            args[6] = "1";
+                            args[7] = "0";
+                            args[8] = "0";
+                            args[9] = "0";
+                            args[10] = R.drawable.img_default + "";
+                            args[11] = R.drawable.avatar_default + "";
+                            long res = DBUtils.insert(args);
+                            Log.e("hhx", "db insert (single): " + res + "args[10]-args[11]: " + args[10] + "-" + args[11]);
                             // 跳转到创建列表
                             PersonalActivity.actionStart(getContext(), 0, mBundle);
                             ((Activity) getContext()).finish();

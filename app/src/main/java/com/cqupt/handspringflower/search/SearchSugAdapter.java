@@ -79,7 +79,8 @@ public class SearchSugAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 mEditText.setSelection(mEditText.getText().length());
                 mListHis.add(0, item);
                 mListRes.clear();
-                RecyclerUtils.getResultItems(mListRes);
+//                RecyclerUtils.getResultItems(mListRes);
+                RecyclerUtils.getResultItemsDB(mListRes, item.getSearch());
                 mRecyclerView.setAdapter(mAdapter);
                 SearchActivity.hideKeyBoard();
             }

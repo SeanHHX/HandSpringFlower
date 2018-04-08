@@ -1,6 +1,7 @@
 package com.cqupt.handspringflower.search;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -72,7 +73,16 @@ public class SearchResAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ResItemViewHolder) holder).mCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    InfoActivity.actionStart(mContext, item.getImageId(), item.getTitle());
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("image_id", item.getImageId());
+                    bundle.putString("title", item.getTitle());
+                    bundle.putString("time", item.getTime());
+                    bundle.putString("institute", item.getInstitute());
+                    bundle.putString("location", item.getLocation());
+                    bundle.putString("content", item.getContent());
+                    bundle.putInt("author_id", item.getAutorId());
+                    bundle.putString("author", item.getAuthor());
+                    InfoActivity.actionStart(mContext, bundle);
                 }
             });
     }

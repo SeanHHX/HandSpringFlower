@@ -1,12 +1,16 @@
 package com.cqupt.handspringflower;
 
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteException;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.cqupt.handspringflower.database.DBUtils;
 import com.cqupt.handspringflower.login_register.LoginRegister;
 import com.cqupt.handspringflower.main.MainActivity;
+import com.cqupt.handspringflower.utils.RecyclerUtils;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,11 +30,24 @@ public class SplashActivity extends AppCompatActivity {
 //        boolean first_run = mSharedPreferences.getBoolean(APP_FIRST_RUN, true);
         // Enter to MainActivity. Delete Later.
         boolean first_run = mSharedPreferences.getBoolean(APP_FIRST_RUN, true);
+        boolean isInsertDefault = mSharedPreferences.getBoolean("insert_default", true);
 
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         // Test: First Run(Delete later).
         editor.putBoolean(APP_FIRST_RUN, true);
-        editor.apply();
+        editor.commit();
+
+        if(isInsertDefault) {
+            editor.putBoolean("insert_default", false);
+            editor.commit();
+            try {
+                DBUtils.insert(RecyclerUtils.getDefaultItems());
+            } catch (SQLiteException e) {
+                Log.e("hhx", Log.getStackTraceString(e));
+                editor.putBoolean("insert_default", true);
+                editor.commit();
+            }
+        }
 
         if(first_run == true) {
             // Test: true->LoginRegister, false->MainActivty.

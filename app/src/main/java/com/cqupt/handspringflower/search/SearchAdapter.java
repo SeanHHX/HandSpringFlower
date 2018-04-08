@@ -125,7 +125,8 @@ public class SearchAdapter extends
                     mListHis.remove(position);
                     mListHis.add(0, item);
                     mListRes.clear();
-                    RecyclerUtils.getResultItems(mListRes);
+//                    RecyclerUtils.getResultItems(mListRes);
+                    RecyclerUtils.getResultItemsDB(mListRes, item.getSearch());
                     mRecyclerView.setAdapter(mAdapter);
                     SearchActivity.hideKeyBoard();
                 }

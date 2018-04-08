@@ -234,7 +234,7 @@
             <!--第三板块-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="200dp"
                 android:orientation="horizontal"
                 android:background="@color/colorWhite">
 
@@ -257,8 +257,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="12dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_next"

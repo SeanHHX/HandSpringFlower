@@ -35,8 +35,9 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_author_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_author_m"/>
 
             <TextView
